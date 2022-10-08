@@ -14,9 +14,7 @@ function Header(props) {
           </div>
         </div>
         <div className="header__cart">
-
           <Button/>
-
         </div>
       </div>
     </div>
