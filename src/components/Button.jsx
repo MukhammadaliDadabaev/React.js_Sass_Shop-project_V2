@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Button() {
   return (
     <>
-      <a href="/cart.html" className="button button--cart">
+      <Link to="/card" className="button button--cart">
         <span>520 ₽</span>
         <div className="button__delimiter"></div>
         <svg
@@ -36,7 +37,7 @@ function Button() {
           />
         </svg>
         <span>3</span>
-      </a>
+      </Link>
     </>
   );
 }
