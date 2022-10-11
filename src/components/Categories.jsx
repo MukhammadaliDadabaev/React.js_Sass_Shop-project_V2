@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Categories() {
-  // STATE
-  const [activeIndex, setActiveIndex] = useState(0);
-
+function Categories({ value, onChangeCategory }) {
   // ITEM-MASSIV
   const categories = [
     "Все",
@@ -17,13 +14,13 @@ function Categories() {
   return (
     <div className="categories">
       <ul>
-        {categories.map((item, ind) => (
+        {categories.map((categoryName, ind) => (
           <li
             key={ind}
-            onClick={() => setActiveIndex(ind)}
-            className={activeIndex === ind ? "active" : ""}
+            onClick={() => onChangeCategory(ind)}
+            className={value === ind ? "active" : ""}
           >
-            {item}
+            {categoryName}
           </li>
         ))}
       </ul>
