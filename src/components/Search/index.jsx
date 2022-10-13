@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GrSearch, GrFormClose } from "react-icons/gr";
+import { SearchContext } from "../../App";
 
 import styles from "./Search.module.scss";
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+  // useContext-Provider
+  const { searchValue, setSearchValue } = useContext(SearchContext);
+
   return (
     <div className={styles.root}>
       <GrSearch className={styles.icon} />

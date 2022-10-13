@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { SearchContext } from "../App";
+// components
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlog";
 import Skeleton from "../components/PizzaBlog/Skeleton";
 import Pagination from "../components/Pagination";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  // useContext-Provider
+  const { searchValue } = useContext(SearchContext);
+
   // STATE
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
