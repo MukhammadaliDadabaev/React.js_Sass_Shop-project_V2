@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // React-Redux-state
 import { useDispatch, useSelector } from "react-redux";
 // Redux-toolkit
@@ -19,6 +19,9 @@ function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
 
+  // MODAL FOCUS-CURCOR
+  const sortRef = useRef();
+
   // STATE
   const [open, setOpen] = useState(false);
 
@@ -28,8 +31,26 @@ function Sort() {
     setOpen(false);
   };
 
+  // MODAL FOCUS-CURCOR
+  useEffect(() => {
+    // console.log("Sort-bosildi, mount");
+    const handleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setOpen(false);
+        // console.log("Home-page bosildi");
+      }
+    };
+    document.body.addEventListener("click", handleClickOutside);
+
+    // BUNDA BASHQA-PAGEDA ISHLAMASLIGI-UCHUN
+    return () => {
+      // console.log("Boshqa-page, unmount");
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
