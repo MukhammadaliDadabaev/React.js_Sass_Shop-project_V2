@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 // qs link
 import qs from "qs";
 // react-router
 import { useNavigate } from "react-router-dom";
-// AXIOS-API
-import axios from "axios";
 // React-Redux-state
 import { useDispatch, useSelector } from "react-redux";
 // Redux-toolkit
@@ -21,53 +19,79 @@ import Sort, { sortList } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlog";
 import Skeleton from "../components/PizzaBlog/Skeleton";
 import Pagination from "../components/Pagination";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 const Home = () => {
   // ROUTER
   const navigate = useNavigate();
-
   // REDUX-STATE
   const dispatch = useDispatch();
-
   // Filter-ROUTER-Render
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
+  // Fetch-API-JSON cards
+  const cards = useSelector((state) => state.pizza.items);
+  // isLoading-status
+  const status = useSelector((state) => state.pizza.status);
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
 
   // useContext-Provider
   const { searchValue } = useContext(SearchContext);
-  // STATE
-  const [cards, setCards] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // REACT-REDUX
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
 
-  // REACT-REDUX
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
 
   // Fetch-API
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const sortBy = sort.sortProperty.replace("-", "");
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    axios
-      .get(
-        `https://634300d53f83935a784df853.mockapi.io/cards?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-      )
-      .then((res) => {
-        setCards(res.data);
-        setIsLoading(false);
-      });
+    //-------------> 1-USUL
+    // await axios
+    //   .get(
+    //     `https://634300d53f83935a784df853.mockapi.io/cards?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+    //   )
+    //   .then((res) => {
+    //     setCards(res.data);
+    //     setIsLoading(false);
+    //     console.log("async", 11111);
+    //   })
+    //   .catch((err) => {
+    //     setIsLoading(false);
+    //     console.log(err, "AXIOS-DA XATOLIK 👀");
+    //   });
+
+    //------------> 2-USUL
+    // try {
+    // } catch (error) {
+    //   console.log("AXIOS-DA XATOLIK 👀", error);
+    //   alert("PIZZA 🍕 OLISHDA XATOLIK... ❌");
+    // } finally {
+    //   // setIsLoading(false);
+    // }
+
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      })
+    );
+
+    window.scrollTo(0, 0);
   };
 
   // QUERY-qs ---> 2-render
@@ -109,10 +133,8 @@ const Home = () => {
   // Bu 1-chi render-dan keyin card-to'ladi
   useEffect(() => {
     window.scrollTo(0, 0);
+    getPizzas();
 
-    if (!isSearch.current) {
-      fetchPizzas();
-    }
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
@@ -131,7 +153,18 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === "error" ? (
+        <div className="content__error-info ">
+          <h2>Xatolik ro'y berdi😕</h2>
+          <p>
+            Afsuski, Pitsa olinmadi 🤔 <br /> Keyinroq qayta urinib ko'ring 😎
+          </p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeletons : pizzas}
+        </div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );

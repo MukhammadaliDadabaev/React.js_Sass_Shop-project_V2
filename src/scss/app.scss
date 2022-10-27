@@ -24,6 +24,23 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error-info {
+    width: 500px;
+    margin: 70px auto;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 45px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 21px;
+      font-weight: 700;
+    }
+  }
+
   &__title {
     display: flex;
     align-items: center;
