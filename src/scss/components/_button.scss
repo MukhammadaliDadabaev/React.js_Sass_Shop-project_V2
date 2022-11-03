@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .button {
   display: inline-block;
@@ -8,7 +8,8 @@
   min-width: 100px;
   text-align: center;
   cursor: pointer;
-  transition: background-color $duration ease-in-out, border-color $duration ease-in-out;
+  transition: background-color $duration ease-in-out,
+    border-color $duration ease-in-out;
   border: 1px solid transparent;
   @include noselect();
 
@@ -16,11 +17,11 @@
   span {
     color: #fff;
   }
-
+  .svg {
+    transition: all $duration ease-in-out;
+  }
   i,
-  span,
-  path,
-  svg {
+  span {
     transition: all $duration ease-in-out;
   }
 
@@ -61,10 +62,8 @@
       color: $orange;
     }
 
-    svg {
-      path {
-        fill: $orange;
-      }
+    .svg {
+      fill: #fff;
     }
 
     &:hover {
@@ -73,12 +72,6 @@
       &,
       span {
         color: #fff;
-      }
-
-      svg {
-        path {
-          fill: #fff;
-        }
       }
     }
 
@@ -96,8 +89,9 @@
   }
 
   &--add {
-    svg {
-      margin-right: 2px;
+    .svg {
+      margin-right: 3px;
+      font-size: 15px;
     }
 
     span {
@@ -135,7 +129,7 @@
     line-height: 23px;
     padding: 12px 25px;
 
-    svg {
+    .svg {
       margin-right: 8px;
       margin-bottom: 1px;
     }
@@ -144,5 +138,20 @@
       font-weight: 600;
       font-size: 16px;
     }
+  }
+}
+
+.time-icon {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  padding: 5px;
+  color: rgb(197, 197, 197);
+  transition: 0.5s all ease;
+
+  &:hover {
+    background-color: darken($orange, 8%);
+    color: #fff;
   }
 }

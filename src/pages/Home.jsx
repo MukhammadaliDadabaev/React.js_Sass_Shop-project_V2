@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useRef } from "react";
 // qs link
 import qs from "qs";
 // react-router
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // React-Redux-state
 import { useDispatch, useSelector } from "react-redux";
 // Redux-toolkit
@@ -139,7 +139,11 @@ const Home = () => {
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   // OBJECT-ARRAY
-  const pizzas = cards.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = cards.map((obj) => (
+    <Link key={obj.id} to={`/pizza/${obj.id}`}>
+      <PizzaBlock {...obj} />{" "}
+    </Link>
+  ));
 
   // CARD isLoading method
   const skeletons = [...new Array(8)].map((_, index) => (
